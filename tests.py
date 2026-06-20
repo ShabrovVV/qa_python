@@ -75,3 +75,24 @@ class TestBooksCollector:
         result = collector.get_books_with_specific_genre('Роман')
         assert result == []
 
+# ========== получаем жанр книги по её имени ==========
+    def test_get_book_genre_book_exists_with_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        collector.set_book_genre('Книга', 'Фантастика')
+        assert collector.get_book_genre('Книга') == 'Фантастика'
+
+    def test_get_book_genre_book_exists_without_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        assert collector.get_book_genre('Книга') == ''
+
+    def test_get_book_genre_book_not_exists(self):
+        collector = BooksCollector()
+        assert collector.get_book_genre('Несуществующая книга') is None
+
+    def test_get_book_genre_case_sensitivity(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        collector.set_book_genre('Книга', 'Детективы')
+        assert collector.get_book_genre('книга') is None
