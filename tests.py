@@ -12,7 +12,7 @@ class TestBooksCollector:
 
         assert len(collector.get_books_rating()) == 2
 
-def test_add_new_book_name_more_than_40_symbols(self):
+    def test_add_new_book_name_more_than_40_symbols(self):
         collector = BooksCollector()
         long_name = 'А' * 41
         collector.add_new_book(long_name)
@@ -36,3 +36,20 @@ def test_add_new_book_name_more_than_40_symbols(self):
         collector.add_new_book('Книга')
         assert len(collector.get_books_genre()) == 1
 
+# ========== устанавливаем книге жанр ==========
+    def test_set_book_genre_valid(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        collector.set_book_genre('Книга', 'Фантастика')
+        assert collector.get_book_genre('Книга') == 'Фантастика'
+
+    def test_set_book_genre_book_not_exists(self):
+        collector = BooksCollector()
+        collector.set_book_genre('Несуществующая книга', 'Фантастика')
+        assert collector.get_book_genre('Несуществующая книга') is None
+
+    def test_set_book_genre_invalid_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        collector.set_book_genre('Книга', 'Роман')
+        assert collector.get_book_genre('Книга') == ''
