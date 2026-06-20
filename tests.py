@@ -53,3 +53,25 @@ class TestBooksCollector:
         collector.add_new_book('Книга')
         collector.set_book_genre('Книга', 'Роман')
         assert collector.get_book_genre('Книга') == ''
+
+# ========== выводим список книг с определённым жанром ==========
+    @pytest.mark.parametrize('genre', ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии'])
+    def test_get_books_with_specific_genre_valid(self, genre):
+        collector = BooksCollector()
+        collector.add_new_book('Книга 1')
+        collector.set_book_genre('Книга 1', genre)
+        result = collector.get_books_with_specific_genre(genre)
+        assert 'Книга 1' in result
+
+    def test_get_books_with_specific_genre_no_books(self):
+        collector = BooksCollector()
+        result = collector.get_books_with_specific_genre('Фантастика')
+        assert result == []
+
+    def test_get_books_with_specific_genre_invalid_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        collector.set_book_genre('Книга', 'Фантастика')
+        result = collector.get_books_with_specific_genre('Роман')
+        assert result == []
+
