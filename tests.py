@@ -96,3 +96,31 @@ class TestBooksCollector:
         collector.add_new_book('Книга')
         collector.set_book_genre('Книга', 'Детективы')
         assert collector.get_book_genre('книга') is None
+
+ # ========== возвращаем книги, подходящие детям ==========
+    def test_get_books_for_children_no_age_rating(self):
+        collector = BooksCollector()
+        collector.add_new_book('Детская книга')
+        collector.set_book_genre('Детская книга', 'Мультфильмы')
+        result = collector.get_books_for_children()
+        assert 'Детская книга' in result
+
+    def test_get_books_for_children_with_age_rating(self):
+        collector = BooksCollector()
+        collector.add_new_book('Ужасная книга')
+        collector.set_book_genre('Ужасная книга', 'Ужасы')
+        result = collector.get_books_for_children()
+        assert 'Ужасная книга' not in result
+
+    def test_get_books_for_children_mixed(self):
+        collector = BooksCollector()
+        collector.add_new_book('Детская книга')
+        collector.set_book_genre('Детская книга', 'Мультфильмы')
+        collector.add_new_book('Ужасная книга')
+        collector.set_book_genre('Ужасная книга', 'Ужасы')
+        collector.add_new_book('Детективная книга')
+        collector.set_book_genre('Детективная книга', 'Детективы')
+        result = collector.get_books_for_children()
+        assert 'Детская книга' in result
+        assert 'Ужасная книга' not in result
+        assert 'Детективная книга' not in result
