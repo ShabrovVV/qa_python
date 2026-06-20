@@ -124,3 +124,22 @@ class TestBooksCollector:
         assert 'Детская книга' in result
         assert 'Ужасная книга' not in result
         assert 'Детективная книга' not in result
+
+# ========== добавляем книгу в Избранное ==========
+    def test_add_book_in_favorites_book_exists(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        collector.add_book_in_favorites('Книга')
+        assert 'Книга' in collector.get_list_of_favorites_books()
+
+    def test_add_book_in_favorites_book_not_in_books_genre(self):
+        collector = BooksCollector()
+        collector.add_book_in_favorites('Несуществующая книга')
+        assert collector.get_list_of_favorites_books() == []
+
+    def test_add_book_in_favorites_duplicate(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга')
+        collector.add_book_in_favorites('Книга')
+        collector.add_book_in_favorites('Книга')
+        assert len(collector.get_list_of_favorites_books()) == 1
