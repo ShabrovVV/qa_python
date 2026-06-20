@@ -158,3 +158,19 @@ class TestBooksCollector:
         collector.add_book_in_favorites('Книга')
         collector.delete_book_from_favorites('Несуществующая книга')
         assert len(collector.get_list_of_favorites_books()) == 1
+
+ # ========== получаем список Избранных книг ==========
+    def test_get_list_of_favorites_books_empty(self):
+        collector = BooksCollector()
+        assert collector.get_list_of_favorites_books() == []
+
+    def test_get_list_of_favorites_books_with_books(self):
+        collector = BooksCollector()
+        collector.add_new_book('Книга 1')
+        collector.add_new_book('Книга 2')
+        collector.add_book_in_favorites('Книга 1')
+        collector.add_book_in_favorites('Книга 2')
+        favorites = collector.get_list_of_favorites_books()
+        assert len(favorites) == 2
+        assert 'Книга 1' in favorites
+        assert 'Книга 2' in favorites
